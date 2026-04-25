@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6 text-center mt-5">
+        <div class="card shadow border-0 p-5 rounded-4">
+            <div class="text-success mb-4">
+                <h1 style="font-size: 5rem; margin: 0;">&#10004;</h1>
+            </div>
+            <h2 class="fw-bold mb-3">報名成功！</h2>
+            <p class="lead text-muted mb-4">你已成功報名 <strong>{{ activity.title }}</strong></p>
+            <p class="text-secondary">請留意我們後續寄送的行前通知信件。</p>
+            <div class="mt-4">
+                <a href="{{ url_for('main.index') }}" class="btn btn-primary btn-lg px-5 rounded-pill fw-bold">回到活動列表</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

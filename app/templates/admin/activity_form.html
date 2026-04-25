@@ -1,0 +1,57 @@
+{% extends "admin/base_admin.html" %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="mb-3">
+            <a href="{{ url_for('admin.dashboard') }}" class="text-decoration-none text-muted">&larr; 返回清單</a>
+        </div>
+        <div class="card shadow-sm border-0 rounded-4 overflow-hidden">
+            <div class="card-header bg-white border-bottom pt-4 pb-3 px-5">
+                <h4 class="fw-bold m-0">{{ '編輯活動' if action == 'edit' else '建立新活動' }}</h4>
+            </div>
+            <div class="card-body p-5">
+                <form action="" method="POST">
+                    <div class="mb-4">
+                        <label for="title" class="form-label fw-bold">活動名稱 <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="title" name="title" value="{{ activity.title if activity else '' }}" required>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <label for="event_time" class="form-label fw-bold">舉辦時間 <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="event_time" name="event_time" placeholder="例如：2023-12-01 14:00" value="{{ activity.event_time if activity else '' }}" required>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <label for="location" class="form-label fw-bold">舉辦地點 <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="location" name="location" value="{{ activity.location if activity else '' }}" required>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label for="capacity" class="form-label fw-bold">人數上限 <span class="text-danger">*</span></label>
+                        <input type="number" class="form-control" id="capacity" name="capacity" min="1" value="{{ activity.capacity if activity else 50 }}" required>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label for="description" class="form-label fw-bold">活動簡介</label>
+                        <textarea class="form-control" id="description" name="description" rows="6">{{ activity.description if activity else '' }}</textarea>
+                    </div>
+                    
+                    {% if action == 'edit' %}
+                    <div class="mb-5 form-check bg-light p-3 rounded">
+                        <input type="checkbox" class="form-check-input ms-1" id="is_full" name="is_full" {% if activity and activity.is_full %}checked{% endif %}>
+                        <label class="form-check-label text-danger fw-bold ms-2" for="is_full">強制標記為「已額滿」（關閉前端報名按鈕）</label>
+                    </div>
+                    {% endif %}
+                    
+                    <div class="d-flex justify-content-end gap-3 mt-4">
+                        <a href="{{ url_for('admin.dashboard') }}" class="btn btn-light rounded-pill px-4">取消</a>
+                        <button type="submit" class="btn btn-primary rounded-pill px-5 fw-bold">{{ '儲存變更' if action == 'edit' else '建立活動' }}</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

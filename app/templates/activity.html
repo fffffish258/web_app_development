@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="mb-4">
+            <a href="{{ url_for('main.index') }}" class="text-decoration-none">&larr; 返回活動列表</a>
+        </div>
+        
+        <div class="card shadow-sm border-0 mb-4 rounded-4">
+            <div class="card-body p-5">
+                <h2 class="fw-bold mb-3">{{ activity.title }}</h2>
+                
+                <div class="d-flex align-items-center mb-4 flex-wrap gap-3">
+                    <span class="badge {{ 'bg-danger' if activity.is_full else 'bg-success' }} fs-6 px-3 py-2 rounded-pill">
+                        {{ '已額滿' if activity.is_full else '開放報名中' }}
+                    </span>
+                    <span class="text-muted"><strong>地點:</strong> {{ activity.location }}</span>
+                    <span class="text-muted"><strong>時間:</strong> {{ activity.event_time }}</span>
+                    <span class="text-primary fw-bold"><strong>報名人數:</strong> {{ current_count }} / {{ activity.capacity }}</span>
+                </div>
+                
+                <h5 class="fw-bold mt-4 mb-3 border-bottom pb-2">活動介紹</h5>
+                <p style="white-space: pre-wrap;" class="text-secondary lh-lg">{{ activity.description }}</p>
+            </div>
+        </div>
+
+        {% if not activity.is_full %}
+        <div class="card shadow border-0 rounded-4 overflow-hidden">
+            <div class="card-header bg-primary text-white border-0 pt-4 pb-3 px-5">
+                <h4 class="fw-bold m-0">填寫報名資料</h4>
+            </div>
+            <div class="card-body p-5 bg-white">
+                <form action="{{ url_for('main.register_activity', activity_id=activity.id) }}" method="POST">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="name" class="form-label fw-bold">真實姓名 <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="name" name="name" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="student_id" class="form-label fw-bold">學號 <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="student_id" name="student_id" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="email" class="form-label fw-bold">聯絡信箱 <span class="text-danger">*</span></label>
+                            <input type="email" class="form-control" id="email" name="email" required>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <label for="phone" class="form-label fw-bold">聯絡電話 <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="phone" name="phone" required>
+                        </div>
+                    </div>
+                    <div class="d-grid mt-2">
+                        <button type="submit" class="btn btn-primary btn-lg rounded-pill fw-bold">確認送出報名</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        {% else %}
+        <div class="alert alert-warning text-center p-4 rounded-4 shadow-sm">
+            <h4 class="alert-heading fw-bold">很抱歉！</h4>
+            <p class="mb-0 mt-2">此活動報名人數已達上限，目前不開放報名。</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

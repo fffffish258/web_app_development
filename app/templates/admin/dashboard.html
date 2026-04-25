@@ -1,0 +1,55 @@
+{% extends "admin/base_admin.html" %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="fw-bold mb-0">活動管理清單</h2>
+    <a href="{{ url_for('admin.new_activity') }}" class="btn btn-primary rounded-pill px-4 fw-bold">+ 建立新活動</a>
+</div>
+
+<div class="card shadow-sm border-0 rounded-4 overflow-hidden">
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover mb-0 align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th class="ps-4 py-3">活動名稱</th>
+                        <th>舉辦時間</th>
+                        <th>報名狀況</th>
+                        <th>狀態</th>
+                        <th class="pe-4 text-end">操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for activity in activities %}
+                    <tr>
+                        <td class="ps-4 fw-bold">{{ activity.title }}</td>
+                        <td class="text-secondary">{{ activity.event_time }}</td>
+                        <td>
+                            <a href="{{ url_for('admin.participants', activity_id=activity.id) }}" class="text-decoration-none fw-bold">
+                                {{ activity.current_count }} / {{ activity.capacity }} 人
+                            </a>
+                        </td>
+                        <td>
+                            <span class="badge {{ 'bg-danger' if activity.is_full else 'bg-success' }} px-3 py-2 rounded-pill">
+                                {{ '已額滿' if activity.is_full else '開放中' }}
+                            </span>
+                        </td>
+                        <td class="pe-4 text-end">
+                            <a href="{{ url_for('admin.participants', activity_id=activity.id) }}" class="btn btn-sm btn-info text-white rounded-pill px-3">名單</a>
+                            <a href="{{ url_for('admin.edit_activity', activity_id=activity.id) }}" class="btn btn-sm btn-secondary rounded-pill px-3 mx-1">編輯</a>
+                            <form action="{{ url_for('admin.delete_activity', activity_id=activity.id) }}" method="POST" class="d-inline" onsubmit="return confirm('確定要刪除這個活動嗎？所有相關的報名資料也會一併刪除且無法復原。');">
+                                <button type="submit" class="btn btn-sm btn-danger rounded-pill px-3">刪除</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="5" class="text-center py-5 text-muted fs-5">目前尚未建立任何活動</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

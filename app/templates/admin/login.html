@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center mt-5">
+    <div class="col-md-5">
+        <div class="card shadow border-0 rounded-4 overflow-hidden">
+            <div class="card-header bg-dark text-white text-center py-4 border-0">
+                <h4 class="mb-0 fw-bold">管理員登入</h4>
+            </div>
+            <div class="card-body p-5">
+                <form action="{{ url_for('admin.login') }}" method="POST">
+                    <div class="mb-4">
+                        <label for="username" class="form-label fw-bold">帳號</label>
+                        <input type="text" class="form-control form-control-lg" id="username" name="username" required>
+                    </div>
+                    <div class="mb-5">
+                        <label for="password" class="form-label fw-bold">密碼</label>
+                        <input type="password" class="form-control form-control-lg" id="password" name="password" required>
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-dark btn-lg rounded-pill fw-bold">登入系統</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends "admin/base_admin.html" %}
+
+{% block content %}
+<div class="mb-3">
+    <a href="{{ url_for('admin.dashboard') }}" class="text-decoration-none text-muted">&larr; 返回清單</a>
+</div>
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h2 class="fw-bold mb-1">報名名單：{{ activity.title }}</h2>
+        <span class="text-muted">目前共 <strong>{{ participants|length }} / {{ activity.capacity }}</strong> 人報名</span>
+    </div>
+    <button class="btn btn-outline-secondary rounded-pill px-4" onclick="window.print()">
+        <i class="bi bi-printer"></i> 列印 / 存為 PDF
+    </button>
+</div>
+
+<div class="card shadow-sm border-0 rounded-4 overflow-hidden">
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover table-striped mb-0 align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th class="ps-4 py-3">#</th>
+                        <th>姓名</th>
+                        <th>學號</th>
+                        <th>Email</th>
+                        <th>聯絡電話</th>
+                        <th class="pe-4">報名時間</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for p in participants %}
+                    <tr>
+                        <td class="ps-4 text-muted">{{ loop.index }}</td>
+                        <td class="fw-bold">{{ p.name }}</td>
+                        <td>{{ p.student_id }}</td>
+                        <td>{{ p.email }}</td>
+                        <td>{{ p.phone }}</td>
+                        <td class="text-muted small pe-4">{{ p.created_at }}</td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="6" class="text-center py-5 text-muted fs-5">目前尚未有任何人報名此活動</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
